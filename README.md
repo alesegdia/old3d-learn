@@ -1,4 +1,4 @@
-# old3d-learning
+# old3d-learn
 
 Repo focusing on learning old rendering techniques used in games like Doom and Duke Nukem
 
