@@ -5,9 +5,17 @@ public:
 	AllegroApp ( int screen_width, int screen_height );
 	virtual ~AllegroApp ();
 
+	int Exec();
+
 private:
 
-	void Init();
+	int Init();
+
+protected:
+
+	virtual void HandleEvent(ALLEGRO_EVENT& ev);
+	virtual void Draw();
+	virtual void Ready();
 
 	int screenWidth, screenHeight;
 

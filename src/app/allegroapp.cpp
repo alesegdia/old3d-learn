@@ -1,8 +1,13 @@
 #include "allegroapp.h"
+#include <stdio.h>
 
 AllegroApp::AllegroApp( int screen_width, int screen_height )
 	: screenWidth(screen_width), screenHeight(screen_height)
 {
+
+}
+
+AllegroApp::~AllegroApp() {
 
 }
 
@@ -48,7 +53,40 @@ int AllegroApp::Init() {
 	al_clear_to_color(al_map_rgb(0,0,0));
 	al_start_timer(timer);
 
+	Ready();
+
 	return 0;
+}
+
+void AllegroApp::HandleEvent(ALLEGRO_EVENT& ev) {
+
+}
+
+void AllegroApp::Draw() {
+
+}
+
+void AllegroApp::Ready() {
+
+}
+
+int AllegroApp::Exec() {
+	int retcode = Init();
+	if( retcode != 0 ) return retcode;
+
+	while(!doexit) {
+		printf("HASJWHJEJW");
+		fflush(0);
+		ALLEGRO_EVENT ev;
+		al_wait_for_event(event_queue, &ev);
+		HandleEvent(ev);
+
+		if( redraw && al_is_event_queue_empty(event_queue) ) {
+			redraw = false;
+			Draw();
+		}
+	}
+
 }
 
 
