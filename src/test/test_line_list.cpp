@@ -263,10 +263,10 @@ int main(int argc, char **argv)
 					float x1, x2, y1a, y1b, y2a, y2b;
 					x1 = -tx1 * 16 /tz1; y1a = -50 / tz1; y1b = 50 / tz1;
 					x2 = -tx2 * 16 /tz2; y2a = -50 / tz2; y2b = 50 / tz2;
-					al_draw_line( x1, 50 + y1a, 50 + x2, 50 + y2a, yellow_color, 1);
-					al_draw_line( x1, 50 + y1b, 50 + x2, 50 + y2b, yellow_color, 1);
-					al_draw_line( x1, 50 + y1a, 50 + x1, 50 + y1b, yellow_color, 1);
-					al_draw_line( x2, 50 + y2a, 50 + x2, 50 + y2b, yellow_color, 1);
+					al_draw_line( 50 + x1, 50 + y1a, 50 + x2, 50 + y2a, yellow_color, 1);
+					al_draw_line( 50 + x1, 50 + y1b, 50 + x2, 50 + y2b, yellow_color, 1);
+					al_draw_line( 50 + x1, 50 + y1a, 50 + x1, 50 + y1b, yellow_color, 1);
+					al_draw_line( 50 + x2, 50 + y2a, 50 + x2, 50 + y2b, yellow_color, 1);
 				}
 			}
 			al_flip_display();
