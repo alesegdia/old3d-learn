@@ -43,9 +43,6 @@ public:
 		s.floor = 0;
 		s.ceil = 20;
 		sectors.push_back(s);
-		red_color = al_map_rgb(184, 22, 22);
-		grey_color = al_map_rgb(184, 184, 184);
-		yellow_color = al_map_rgb(255, 255, 0);
 		sw2 = screenWidth/2.f;
 		sh2 = screenHeight/2.f;
 		pl.pos.x = 50;
@@ -85,7 +82,6 @@ public:
 	void Draw() {
 		float pcos = cos(-pl.angle);
 		float psin = sin(-pl.angle);
-		al_set_target_bitmap(al_get_backbuffer(display));
 		al_clear_to_color(al_map_rgb(128,0,0));
 		for( sector s : sectors ) {
 			for( int i = 0; i < s.vertices.size(); i++ ) {
@@ -101,7 +97,6 @@ public:
 			}
 		}
 		al_draw_filled_rectangle(sw2-2, sh2-2, sw2+2, sh2+2, red_color);
-		al_flip_display();
 	}
 
 private:

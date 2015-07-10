@@ -125,18 +125,12 @@ protected:
 					al_draw_line( 50 + x2, 50 + y2a, 50 + x2, 50 + y2b, yellow_color, 1);
 				}
 			}
-			al_flip_display();
 	}
 
 	void Ready() {
 		sub_bmp1 = al_create_sub_bitmap(al_get_backbuffer(display), 0, 				0,	screenWidth/3, screenHeight);
 		sub_bmp2 = al_create_sub_bitmap(al_get_backbuffer(display), screenWidth/3, 	0, 	screenWidth/3, screenHeight);
 		sub_bmp3 = al_create_sub_bitmap(al_get_backbuffer(display), 2*screenWidth/3, 	0, 	screenWidth/3, screenHeight);
-		al_clear_to_color(al_map_rgb(255, 0, 255));
-		al_set_target_bitmap(al_get_backbuffer(display));
-		red_color = al_map_rgb(184, 22, 22);
-		grey_color = al_map_rgb(184, 184, 184);
-		yellow_color = al_map_rgb(255, 255, 0);
 	}
 
 	void add_line( float vx1, float vy1, float vx2, float vy2 ) {
@@ -158,8 +152,5 @@ private:
 	ALLEGRO_BITMAP *sub_bmp1 = NULL;
 	ALLEGRO_BITMAP *sub_bmp2 = NULL;
 	ALLEGRO_BITMAP *sub_bmp3 = NULL;
-	ALLEGRO_COLOR red_color;
-	ALLEGRO_COLOR grey_color;
-	ALLEGRO_COLOR yellow_color;
 
 };
