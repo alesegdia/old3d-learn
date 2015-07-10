@@ -1,10 +1,16 @@
 
+#pragma once
+
+#include <vector>
+
 struct vec2 {
 	float x, y;
+	vec2() : x(0), y(0) {}
 };
 
 struct vec3 {
 	float x, y, z;
+	vec3() : x(0), y(0), z(0) {}
 };
 
 struct line {
@@ -13,13 +19,7 @@ struct line {
 
 struct sector {
 
-	vec2 pos;
+	std::vector<vec2> vertices;
 	float floor, ceil;
-
-	sector( const vec2& pos, float floor, float ceil ) {
-		this->pos = pos;
-		this->floor = floor;
-		this->ceil = ceil;
-	}
 
 };
