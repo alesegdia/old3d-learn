@@ -29,6 +29,9 @@ protected:
 	ALLEGRO_DISPLAY* display = NULL;
 	ALLEGRO_EVENT_QUEUE* event_queue = NULL;
 	ALLEGRO_TIMER* timer = NULL;
+	ALLEGRO_COLOR red_color;
+	ALLEGRO_COLOR grey_color;
+	ALLEGRO_COLOR yellow_color;
 
 	bool redraw = true;
 	bool doexit = false;

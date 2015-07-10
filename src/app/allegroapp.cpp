@@ -53,6 +53,10 @@ int AllegroApp::Init() {
 	al_clear_to_color(al_map_rgb(0,0,0));
 	al_start_timer(timer);
 
+	al_set_target_bitmap(al_get_backbuffer(display));
+	red_color = al_map_rgb(184, 22, 22);
+	grey_color = al_map_rgb(184, 184, 184);
+	yellow_color = al_map_rgb(255, 255, 0);
 	Ready();
 
 	return 0;
@@ -148,8 +152,10 @@ int AllegroApp::Exec() {
 		HandleEvent(ev);
 
 		if( redraw && al_is_event_queue_empty(event_queue) ) {
+			al_set_target_bitmap(al_get_backbuffer(display));
 			redraw = false;
 			Draw();
+			al_flip_display();
 		}
 	}
 
