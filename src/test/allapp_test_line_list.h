@@ -13,10 +13,6 @@ typedef struct {
 	vec2 a, b;
 } line;
 
-enum MYKEYS {
-	KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_SLEFT, KEY_SRIGHT
-};
-
 float cross(float x1, float y1, float x2, float y2) {
 	return x1 * y2 - y1 * x2;
 }
@@ -45,100 +41,34 @@ public:
 
 protected:
 
-	void HandleEvent(ALLEGRO_EVENT& ev) {
-		if(ev.type == ALLEGRO_EVENT_TIMER) {
-			if(key[KEY_UP] && py >= 4.0) {
-				py -= sin(angle);
-				px -= cos(angle);
-			}
-
-			if(key[KEY_DOWN] ) {
-				py += sin(angle);
-				px += cos(angle);
-			}
-
-			if(key[KEY_LEFT] && px >= 4.0) {
-				angle -= 0.05;
-			}
-
-			if(key[KEY_RIGHT] ) {
-				angle += 0.05;
-			}
-
-			if(key[KEY_SLEFT]) {
-				py -= sin(angle+M_PI/2);
-				px -= cos(angle+M_PI/2);
-			}
-
-			if( key[KEY_SRIGHT] ) {
-				py += sin(angle+M_PI/2);
-				px += cos(angle+M_PI/2);
-			}
-
-			redraw = true;
-		}
-		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
-			doexit = true;
-		}
-		else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
-			switch(ev.keyboard.keycode) {
-				case ALLEGRO_KEY_UP:
-					key[KEY_UP] = true;
-					break;
-
-				case ALLEGRO_KEY_DOWN:
-					key[KEY_DOWN] = true;
-					break;
-
-				case ALLEGRO_KEY_LEFT: 
-					key[KEY_LEFT] = true;
-					break;
-
-				case ALLEGRO_KEY_RIGHT:
-					key[KEY_RIGHT] = true;
-					break;
-
-				case ALLEGRO_KEY_Q: 
-					key[KEY_SLEFT] = true;
-					break;
-
-				case ALLEGRO_KEY_E:
-					key[KEY_SRIGHT] = true;
-					break;
-			}
-		}
-		else if(ev.type == ALLEGRO_EVENT_KEY_UP) {
-			switch(ev.keyboard.keycode) {
-				case ALLEGRO_KEY_UP:
-					key[KEY_UP] = false;
-					break;
-
-				case ALLEGRO_KEY_DOWN:
-					key[KEY_DOWN] = false;
-					break;
-
-				case ALLEGRO_KEY_LEFT: 
-					key[KEY_LEFT] = false;
-					break;
-
-				case ALLEGRO_KEY_RIGHT:
-					key[KEY_RIGHT] = false;
-					break;
-
-				case ALLEGRO_KEY_ESCAPE:
-					doexit = true;
-					break;
-
-				case ALLEGRO_KEY_Q:
-					key[KEY_SLEFT] = false;
-					break;
-
-				case ALLEGRO_KEY_E:
-					key[KEY_SRIGHT] = false;
-					break;
-			}
+	void HandleKeyInput() {
+		if(key[KEY_UP] && py >= 4.0) {
+			py -= sin(angle);
+			px -= cos(angle);
 		}
 
+		if(key[KEY_DOWN] ) {
+			py += sin(angle);
+			px += cos(angle);
+		}
+
+		if(key[KEY_LEFT] && px >= 4.0) {
+			angle -= 0.05;
+		}
+
+		if(key[KEY_RIGHT] ) {
+			angle += 0.05;
+		}
+
+		if(key[KEY_SLEFT]) {
+			py -= sin(angle+M_PI/2);
+			px -= cos(angle+M_PI/2);
+		}
+
+		if( key[KEY_SRIGHT] ) {
+			py += sin(angle+M_PI/2);
+			px += cos(angle+M_PI/2);
+		}
 	}
 
 	void Draw() {
@@ -225,7 +155,6 @@ protected:
 private:
 
 	std::vector<line> lines;
-	bool key[6] = { false, false, false, false };
 	float px = 50;
 	float py = 50;
 	float angle = M_PI;

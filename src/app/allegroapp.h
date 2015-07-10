@@ -13,9 +13,14 @@ private:
 
 protected:
 
-	virtual void HandleEvent(ALLEGRO_EVENT& ev);
+	enum MYKEYS {
+		KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_SLEFT, KEY_SRIGHT
+	};
+
+	void HandleEvent(ALLEGRO_EVENT& ev);
 	virtual void Draw();
 	virtual void Ready();
+	virtual void HandleKeyInput();
 
 	int screenWidth, screenHeight;
 
@@ -27,6 +32,8 @@ protected:
 
 	bool redraw = true;
 	bool doexit = false;
+
+	bool key[6] = { false, false, false, false, false, false };
 
 };
 

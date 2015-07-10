@@ -59,7 +59,71 @@ int AllegroApp::Init() {
 }
 
 void AllegroApp::HandleEvent(ALLEGRO_EVENT& ev) {
+	if(ev.type == ALLEGRO_EVENT_TIMER) {
+		HandleKeyInput();
+		redraw = true;
+	}
+	else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+		doexit = true;
+	}
+	else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
+		switch(ev.keyboard.keycode) {
+			case ALLEGRO_KEY_UP:
+				key[KEY_UP] = true;
+				break;
 
+			case ALLEGRO_KEY_DOWN:
+				key[KEY_DOWN] = true;
+				break;
+
+			case ALLEGRO_KEY_LEFT: 
+				key[KEY_LEFT] = true;
+				break;
+
+			case ALLEGRO_KEY_RIGHT:
+				key[KEY_RIGHT] = true;
+				break;
+
+			case ALLEGRO_KEY_Q: 
+				key[KEY_SLEFT] = true;
+				break;
+
+			case ALLEGRO_KEY_E:
+				key[KEY_SRIGHT] = true;
+				break;
+		}
+	}
+	else if(ev.type == ALLEGRO_EVENT_KEY_UP) {
+		switch(ev.keyboard.keycode) {
+			case ALLEGRO_KEY_UP:
+				key[KEY_UP] = false;
+				break;
+
+			case ALLEGRO_KEY_DOWN:
+				key[KEY_DOWN] = false;
+				break;
+
+			case ALLEGRO_KEY_LEFT: 
+				key[KEY_LEFT] = false;
+				break;
+
+			case ALLEGRO_KEY_RIGHT:
+				key[KEY_RIGHT] = false;
+				break;
+
+			case ALLEGRO_KEY_ESCAPE:
+				doexit = true;
+				break;
+
+			case ALLEGRO_KEY_Q:
+				key[KEY_SLEFT] = false;
+				break;
+
+			case ALLEGRO_KEY_E:
+				key[KEY_SRIGHT] = false;
+				break;
+		}
+	}
 }
 
 void AllegroApp::Draw() {
@@ -70,13 +134,15 @@ void AllegroApp::Ready() {
 
 }
 
+void AllegroApp::HandleKeyInput() {
+
+}
+
 int AllegroApp::Exec() {
 	int retcode = Init();
 	if( retcode != 0 ) return retcode;
 
 	while(!doexit) {
-		printf("HASJWHJEJW");
-		fflush(0);
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
 		HandleEvent(ev);
