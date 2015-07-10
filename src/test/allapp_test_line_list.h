@@ -1,17 +1,13 @@
+
+#pragma once
+
 #include "../app/allegroapp.h"
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <math.h>
 #include <vector>
-
-typedef struct {
-	float x, y;
-} vec2;
-
-typedef struct {
-	vec2 a, b;
-} line;
+#include "../core/geometry.h"
 
 float cross(float x1, float y1, float x2, float y2) {
 	return x1 * y2 - y1 * x2;
