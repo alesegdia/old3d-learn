@@ -18,6 +18,33 @@ typedef struct {
 	float anglecos, anglesin;
 } player;
 
+// http://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
+// Returns 1 if the lines intersect, otherwise 0. In addition, if the lines 
+// intersect the intersection point may be stored in the floats i_x and i_y.
+char get_line_intersection(float p0_x, float p0_y, float p1_x, float p1_y, 
+    float p2_x, float p2_y, float p3_x, float p3_y, float *i_x, float *i_y)
+{
+    float s1_x, s1_y, s2_x, s2_y;
+    s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
+    s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
+
+    float s, t;
+    s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
+    t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
+
+    if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
+    {
+        // Collision detected
+        if (i_x != NULL)
+            *i_x = p0_x + (t * s1_x);
+        if (i_y != NULL)
+            *i_y = p0_y + (t * s1_y);
+        return 1;
+    }
+
+    return 0; // No collision
+}
+
 class TestSectorRender : public AllegroApp {
 
 public:
@@ -86,7 +113,7 @@ public:
 		float pcos = cos(-pl.angle);
 		float psin = sin(-pl.angle);
 		al_clear_to_color(al_map_rgb(128,0,0));
-			al_set_target_bitmap(al_get_backbuffer(display));
+		al_set_target_bitmap(al_get_backbuffer(display));
 		for( sector s : sectors ) {
 			for( int i = 0; i < s.vertices.size(); i++ ) {
 				vec2 v1 = s.vertices[i];
@@ -95,8 +122,27 @@ public:
 				float dx2 = v2.x - pl.pos.x, dy2 = v2.y - pl.pos.y;
 				float vtx1 = dx1 * pcos + dy1 * psin, vtz1 = dx1 * psin - dy1 * pcos;
 				float vtx2 = dx2 * pcos + dy2 * psin, vtz2 = dx2 * psin - dy2 * pcos;
+				al_draw_line( sw2 + vtx1, sh2 + vtz1, sw2 + vtx2, sh2 + vtz2, yellow_color, 1);
 				if( vtz1 < 0 || vtz2 < 0 ) {
-					al_draw_line( sw2 + vtx1, sh2 + vtz1, sw2 + vtx2, sh2 + vtz2, yellow_color, 1);
+
+					float i1x, i1y, i2x, i2y;
+					char i1 = get_line_intersection( vtx1,vtz1, vtx2,vtz2, -0.0001f,0.0001f, -2000.f,5.f, &i1x,&i1y );
+					char i2 = get_line_intersection( vtx1,vtz1, vtx2,vtz2,  0.0001f,0.0001f,  2000.f,5.f, &i2x,&i2y );
+
+					printf("tz1:%f\n", vtz1);
+					printf("tz2:%f\n", vtz2);
+
+					// endpoint 1
+					if( vtz1 >= 0 ) {
+						if( i1 == 1 ) 	{ printf("tz1,i1\n"); vtx1 = i1x; vtz1 = -i1y; }
+						else if( i2 == 1 ) 	 		{ printf("tz1,i2\n"); vtx1 = i2x; vtz1 = -i2y; }
+						else { printf("FUCK!"); }
+					}
+					// endpoint 2
+					if( vtz2 >= 0 ) {
+						if( i1 == 1 ) 	{ printf("tz2,i1\n"); vtx2 = i1x; vtz2 = -i1y; }
+						else 	 		{ printf("tz2,i2\n"); vtx2 = i2x; vtz2 = -i2y; }
+					}
 					float x1, x2, y1a, y1b, y2a, y2b;
 					float fov = 512; // higher -> less FOV
 					x1 = -vtx1 * fov / vtz1; y1a = -400 / vtz1; y1b = 400 / vtz1;
