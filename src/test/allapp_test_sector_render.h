@@ -47,6 +47,9 @@ public:
 		sh2 = screenHeight/2.f;
 		pl.pos.x = 50;
 		pl.pos.y = 50;
+		red_color = al_map_rgb(184, 22, 22);
+		grey_color = al_map_rgb(184, 184, 184);
+		yellow_color = al_map_rgb(255, 255, 0);
 	}
 
 	void HandleKeyInput() {
@@ -83,6 +86,7 @@ public:
 		float pcos = cos(-pl.angle);
 		float psin = sin(-pl.angle);
 		al_clear_to_color(al_map_rgb(128,0,0));
+			al_set_target_bitmap(al_get_backbuffer(display));
 		for( sector s : sectors ) {
 			for( int i = 0; i < s.vertices.size(); i++ ) {
 				vec2 v1 = s.vertices[i];
@@ -93,6 +97,14 @@ public:
 				float vtx2 = dx2 * pcos + dy2 * psin, vtz2 = dx2 * psin - dy2 * pcos;
 				if( vtz1 < 0 || vtz2 < 0 ) {
 					al_draw_line( sw2 + vtx1, sh2 + vtz1, sw2 + vtx2, sh2 + vtz2, yellow_color, 1);
+					float x1, x2, y1a, y1b, y2a, y2b;
+					float fov = 512; // higher -> less FOV
+					x1 = -vtx1 * fov / vtz1; y1a = -400 / vtz1; y1b = 400 / vtz1;
+					x2 = -vtx2 * fov / vtz2; y2a = -400 / vtz2; y2b = 400 / vtz2;
+					al_draw_line( sw2 + x1, sh2 + y1a, sw2 + x2, sh2 + y2a, yellow_color, 1);
+					al_draw_line( sw2 + x1, sh2 + y1b, sw2 + x2, sh2 + y2b, yellow_color, 1);
+					al_draw_line( sw2 + x1, sh2 + y1a, sw2 + x1, sh2 + y1b, yellow_color, 1);
+					al_draw_line( sw2 + x2, sh2 + y2a, sw2 + x2, sh2 + y2b, yellow_color, 1);
 				}
 			}
 		}
