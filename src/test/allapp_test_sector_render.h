@@ -67,8 +67,8 @@ public:
 		s.vertices.push_back(vec2(70,70));
 		s.vertices.push_back(vec2(20,70));
 		s.vertices.push_back(vec2(20,20));
-		s.floor = 0;
-		s.ceil = 20;
+		s.floor = -400;
+		s.ceil = 400;
 		sectors.push_back(s);
 		sw2 = screenWidth/2.f;
 		sh2 = screenHeight/2.f;
@@ -126,31 +126,29 @@ public:
 				if( vtz1 < 0 || vtz2 < 0 ) {
 
 					float i1x, i1y, i2x, i2y;
-					char i1 = get_line_intersection( vtx1,vtz1, vtx2,vtz2, -0.0001f,0.0001f, -2000.f,5.f, &i1x,&i1y );
-					char i2 = get_line_intersection( vtx1,vtz1, vtx2,vtz2,  0.0001f,0.0001f,  2000.f,5.f, &i2x,&i2y );
-
-					printf("tz1:%f\n", vtz1);
-					printf("tz2:%f\n", vtz2);
+					char i1 = get_line_intersection( vtx1,vtz1, vtx2,vtz2, -0.000001f,0.000001f, -2000.f,5.f, &i1x,&i1y );
+					char i2 = get_line_intersection( vtx1,vtz1, vtx2,vtz2,  0.000001f,0.000001f,  2000.f,5.f, &i2x,&i2y );
 
 					// endpoint 1
 					if( vtz1 >= 0 ) {
-						if( i1 == 1 ) 	{ printf("tz1,i1\n"); vtx1 = i1x; vtz1 = -i1y; }
-						else if( i2 == 1 ) 	 		{ printf("tz1,i2\n"); vtx1 = i2x; vtz1 = -i2y; }
-						else { printf("FUCK!"); }
+						if( i1 == 1 ) 	{  vtx1 = i1x; vtz1 = -i1y; }
+						else {  vtx1 = i2x; vtz1 = -i2y; }
 					}
 					// endpoint 2
 					if( vtz2 >= 0 ) {
-						if( i1 == 1 ) 	{ printf("tz2,i1\n"); vtx2 = i1x; vtz2 = -i1y; }
-						else 	 		{ printf("tz2,i2\n"); vtx2 = i2x; vtz2 = -i2y; }
+						if( i1 == 1 ) 	{ vtx2 = i1x; vtz2 = -i1y; }
+						else 	 		{ vtx2 = i2x; vtz2 = -i2y; }
 					}
 					float x1, x2, y1a, y1b, y2a, y2b;
 					float fov = 512; // higher -> less FOV
-					x1 = -vtx1 * fov / vtz1; y1a = -400 / vtz1; y1b = 400 / vtz1;
-					x2 = -vtx2 * fov / vtz2; y2a = -400 / vtz2; y2b = 400 / vtz2;
-					al_draw_line( sw2 + x1, sh2 + y1a, sw2 + x2, sh2 + y2a, yellow_color, 1);
-					al_draw_line( sw2 + x1, sh2 + y1b, sw2 + x2, sh2 + y2b, yellow_color, 1);
-					al_draw_line( sw2 + x1, sh2 + y1a, sw2 + x1, sh2 + y1b, yellow_color, 1);
-					al_draw_line( sw2 + x2, sh2 + y2a, sw2 + x2, sh2 + y2b, yellow_color, 1);
+					for( float f = s.floor; f < s.ceil; f = f + 1 ) {
+						x1 = -vtx1 * fov / vtz1; y1a = f / vtz1; y1b = f / vtz1;
+						x2 = -vtx2 * fov / vtz2; y2a = f / vtz2; y2b = f / vtz2;
+						al_draw_line( sw2 + x1, sh2 + y1a, sw2 + x2, sh2 + y2a, yellow_color, 1);
+						al_draw_line( sw2 + x1, sh2 + y1b, sw2 + x2, sh2 + y2b, yellow_color, 1);
+						al_draw_line( sw2 + x1, sh2 + y1a, sw2 + x1, sh2 + y1b, yellow_color, 1);
+						al_draw_line( sw2 + x2, sh2 + y2a, sw2 + x2, sh2 + y2b, yellow_color, 1);
+					}
 				}
 			}
 		}
